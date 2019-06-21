@@ -41,6 +41,7 @@ int main(){
         for(student i:vec)
             if(i.search_data(field,data)){
                 i.output_data();
+                break;
             }
     }
     return 0;
