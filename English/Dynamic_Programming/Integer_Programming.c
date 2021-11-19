@@ -1,31 +1,40 @@
-#include<stdio.h>
-#include<string.h>
-int n;
-int C[110];
-int M[500010];
-void calculate(int i,int m){
-    if(i==n){
-        M[m]=1;
-        return;
-    }
-    calculate(i+1,m+C[i+1]);
-    calculate(i+1,m);
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 50010
+
+int visit[MAX];
+int cnt = 0;
+
+void init(){
+    for(int i = 0; i < MAX; i++)
+        visit[i] = -1;
+    visit[0] = 0;
+
+    cnt = 0;
 }
+
 int main(){
-    int i;
-    while(1){
-        scanf("%d",&n);
-        if(n==0)
-            break;
-        int ans=0;
-        memset(M,0,sizeof(M));
-        for(i=0;i<n;i++)
-            scanf("%d",&C[i]);
-        calculate(-1,0);
-        for(i=0;i<500010;i++)
-            if(M[i]==1)
-                ans++;
-        printf("%d\n",ans);
+    int n;
+    int tmp;
+
+    while(scanf("%d", &n) && n != 0){
+        init();
+
+        for(int i = 1; i <= n; i++){
+            scanf("%d", &tmp);
+
+            for(int j = 0; j < MAX; j++)
+                if(visit[j] < i && visit[j] != -1 && visit[j + tmp] == -1)
+                    visit[j + tmp] = i;
+        }
+
+        for(int i = 0; i < MAX; i++)
+            if(visit[i] >= 0)
+                cnt++;
+
+        printf("%d\n", cnt);
     }
+
     return 0;
 }
